@@ -1,0 +1,25 @@
+---
+# tasks file for mysql_db
+-  name: Installing mysql and dependencies
+   yum: name='{{ item }}' state=installed
+   with_items:
+     -  update
+     -  mysql-server
+     -  mysql-client
+
+-  name: Start mysql
+   service:
+      name: mysql
+      state: started
+      enabled: yes
+
+-  name: Create application database
+   mysql_db: name="{{db_name}}" state=present
+
+-  name: Create a Database user
+   mysql_user:
+     mysql_user:
+          name: "{{db_user}}"
+          password: "{{db_user_password}}"
+          priv: '*.*:ALL'
+          state: present
